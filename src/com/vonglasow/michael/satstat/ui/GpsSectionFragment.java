@@ -28,6 +28,7 @@ import java.util.TimeZone;
 import uk.me.jstott.jcoord.LatLng;
 import uk.me.jstott.jcoord.MGRSRef;
 import uk.me.jstott.jcoord.UTMRef;
+import com.hzi.UTM;
 
 import android.hardware.GeomagneticField;
 import android.hardware.Sensor;
@@ -50,7 +51,6 @@ import com.vonglasow.michael.satstat.R;
 import com.vonglasow.michael.satstat.widgets.GpsSnrView;
 import com.vonglasow.michael.satstat.widgets.GpsStatusView;
 
-import com.hzi.UTM;
 
 /**
  * The fragment which displays GPS data.

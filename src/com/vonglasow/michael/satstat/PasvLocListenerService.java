@@ -25,6 +25,7 @@ import com.vonglasow.michael.satstat.utils.PermissionHelper;
 import uk.me.jstott.jcoord.LatLng;
 import uk.me.jstott.jcoord.MGRSRef;
 import uk.me.jstott.jcoord.UTMRef;
+import com.hzi.UTM;
 
 import android.Manifest;
 import android.app.PendingIntent;
@@ -195,12 +196,7 @@ public class PasvLocListenerService extends Service implements GpsStatus.Listene
             } else if (prefCoord == Const.KEY_PREF_COORD_MGRS) {
                 title = new LatLng(location.getLatitude(), location.getLongitude()).toMGRSRef().toString(MGRSRef.PRECISION_1M);
             } else if (prefCoord == Const.KEY_PREF_COORD_UTM) {
-                UTMRef utm_pos = new LatLng(location.getLatitude(),location.getLongitude()).toUTMRef();
-                int long_zone = utm_pos.getLngZone();
-                char lat_zone = utm_pos.getLatZone();
-                double x = utm_pos.getEasting();
-                double y = utm_pos.getNorthing();
-                title = String.format("%d%c %f %f",long_zone,lat_zone,x,y);
+title = UTM.lat_lon_to_utm(location.getLatitude(), location.getLongitude());
             }
 
 
