@@ -1,5 +1,10 @@
 package com.hzi;
 
+import android.content.Context;
+import android.content.res.Resources;
+
+import com.vonglasow.michael.satstat.R;
+
 import java.lang.Math;
 
 /**
@@ -13,7 +18,7 @@ public class UTM {
         return (x / 10);
     }
 
-    public static String lat_lon_to_utm(double Lat, double Long) {
+    public static String lat_lon_to_utm(double Lat, double Long, Context c) {
 
         double deg2rad = Math.PI / 180.0;
         double rad2deg = 180.0 / Math.PI;
@@ -70,9 +75,12 @@ public class UTM {
                 + 600 * C
                 - 330 * eccPrimeSquared) * A * A * A * A * A * A / 720)));
 
-        if (Lat < 0)
-            UTMNorthing = UTMNorthing + 10000000.0;
-
-        return (String.format("%d / %s / %,d / %,d", ZoneNumber, ((Lat > 0) ? "N" : "S"), Math.round(UTMEasting), Math.round(UTMNorthing)));
+        if (Lat > 84 || Lat < -80) {
+            return (c.getString(R.string.utm_outside_latitude_range));
+        } else {
+            if (Lat < 0)
+                UTMNorthing = UTMNorthing + 10000000.0;
+            return (String.format("%d / %s / %,d / %,d", ZoneNumber, ((Lat > 0) ? "N" : "S"), Math.round(UTMEasting), Math.round(UTMNorthing)));
+        }
     }
 }

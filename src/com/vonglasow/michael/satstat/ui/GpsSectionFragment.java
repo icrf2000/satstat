@@ -216,7 +216,7 @@ public class GpsSectionFragment extends Fragment {
             gpsLatLayout.setVisibility(View.GONE);
             gpsLonLayout.setVisibility(View.GONE);
             gpsCoordLayout.setVisibility(View.VISIBLE);
-            gpsCoord.setText(UTM.lat_lon_to_utm(location.getLatitude(), location.getLongitude()));
+            gpsCoord.setText(UTM.lat_lon_to_utm(location.getLatitude(), location.getLongitude(), this.getContext()));
         }
         if (mainActivity.prefUtc)
             df.setTimeZone(TimeZone.getTimeZone("UTC"));

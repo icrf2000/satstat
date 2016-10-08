@@ -25,6 +25,7 @@ import com.vonglasow.michael.satstat.utils.PermissionHelper;
 import uk.me.jstott.jcoord.LatLng;
 import uk.me.jstott.jcoord.MGRSRef;
 import uk.me.jstott.jcoord.UTMRef;
+
 import com.hzi.UTM;
 
 import android.Manifest;
@@ -196,46 +197,44 @@ public class PasvLocListenerService extends Service implements GpsStatus.Listene
             } else if (prefCoord == Const.KEY_PREF_COORD_MGRS) {
                 title = new LatLng(location.getLatitude(), location.getLongitude()).toMGRSRef().toString(MGRSRef.PRECISION_1M);
             } else if (prefCoord == Const.KEY_PREF_COORD_UTM) {
-title = UTM.lat_lon_to_utm(location.getLatitude(), location.getLongitude());
+                title = UTM.lat_lon_to_utm(location.getLatitude(), location.getLongitude(), this.getApplicationContext());
             }
 
 
-        String text = "";
-        if (location.hasAltitude()) {
-            text = text + String.format("%.0f%s",
-                    (location.getAltitude() * (prefUnitType ? 1 : 3.28084)),
-                    getString(((prefUnitType) ? R.string.unit_meter : R.string.unit_feet)));
-        }
-        if (location.hasSpeed()) {
-            text = text + (text.equals("") ? "" : ", ") + String.format("%.0f%s",
-                    (location.getSpeed() * (prefKnots ? 1.943844 : prefUnitType ? 3.6 : 2.23694)),
-                    getString(((prefKnots) ? R.string.unit_kn : (prefUnitType) ? R.string.unit_km_h : R.string.unit_mph)));
-        }
-        if (location.hasAccuracy()) {
-            text = text + (text.equals("") ? "" : ", ") + String.format("\u03b5 = %.0f%s",
-                    (location.getAccuracy() * (prefUnitType ? 1 : 3.28084)),
-                    getString(((prefUnitType) ? R.string.unit_meter : R.string.unit_feet)));
-        }
-        text = text + (text.equals("") ? "" : ", ") + String.format("%d/%d",
-                satsUsed,
-                satsInView);
-        text = text + (text.equals("") ? "" : ",\n") + String.format("TTFF %d s",
-                status.getTimeToFirstFix() / 1000);
-        mBuilder.setSmallIcon(R.drawable.ic_stat_notify_location);
-        mBuilder.setContentTitle(title);
-        mBuilder.setContentText(text);
-        mBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(text));
+            String text = "";
+            if (location.hasAltitude()) {
+                text = text + String.format("%.0f%s",
+                        (location.getAltitude() * (prefUnitType ? 1 : 3.28084)),
+                        getString(((prefUnitType) ? R.string.unit_meter : R.string.unit_feet)));
+            }
+            if (location.hasSpeed()) {
+                text = text + (text.equals("") ? "" : ", ") + String.format("%.0f%s",
+                        (location.getSpeed() * (prefKnots ? 1.943844 : prefUnitType ? 3.6 : 2.23694)),
+                        getString(((prefKnots) ? R.string.unit_kn : (prefUnitType) ? R.string.unit_km_h : R.string.unit_mph)));
+            }
+            if (location.hasAccuracy()) {
+                text = text + (text.equals("") ? "" : ", ") + String.format("\u03b5 = %.0f%s",
+                        (location.getAccuracy() * (prefUnitType ? 1 : 3.28084)),
+                        getString(((prefUnitType) ? R.string.unit_meter : R.string.unit_feet)));
+            }
+            text = text + (text.equals("") ? "" : ", ") + String.format("%d/%d",
+                    satsUsed,
+                    satsInView);
+            text = text + (text.equals("") ? "" : ",\n") + String.format("TTFF %d s",
+                    status.getTimeToFirstFix() / 1000);
+            mBuilder.setSmallIcon(R.drawable.ic_stat_notify_location);
+            mBuilder.setContentTitle(title);
+            mBuilder.setContentText(text);
+            mBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(text));
 
-        startForeground(ONGOING_NOTIFICATION, mBuilder.build());
+            startForeground(ONGOING_NOTIFICATION, mBuilder.build());
+        } else
+
+        {
+            stopForeground(true);
+        }
+
     }
-
-    else
-
-    {
-        stopForeground(true);
-    }
-
-}
 
     @Override
     public void onProviderDisabled(String provider) {

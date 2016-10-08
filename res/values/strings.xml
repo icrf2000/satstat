@@ -279,5 +279,6 @@
     <string name="notify_perm_body">Touch to grant or deny</string>
     <string name="pref_cid2">Display both cell ID formats</string>
     <string name="pref_cid2_summary">Show both split and non-split forms, with the one selected above appearing on top</string>
+    <string name="utm_outside_latitude_range">Position outside UTM range</string>
 
 </resources>
