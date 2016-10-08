@@ -29,6 +29,7 @@ import uk.me.jstott.jcoord.UTMRef;
 import com.hzi.UTM;
 
 import android.Manifest;
+import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.support.v4.app.ActivityCompat.OnRequestPermissionsResultCallback;
@@ -302,7 +303,8 @@ public class PasvLocListenerService extends Service implements GpsStatus.Listene
                 .setSmallIcon(R.drawable.ic_stat_notify_location)
                 .setContentTitle(getString(R.string.value_none))
                 .setContentText(getString(R.string.value_none))
-                .setWhen(0);
+                .setWhen(0)
+                .setVisibility(Notification.VISIBILITY_PUBLIC);
 
         Intent mainIntent = new Intent(this, MainActivity.class);
 
